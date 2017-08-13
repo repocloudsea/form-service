@@ -1,5 +1,6 @@
 # form-service
 
+### Short Text
 ```json
 {
 	"type" : "short_text",
@@ -9,6 +10,7 @@
 	"maxLength" : 6
 }
 ```
+### Long Text
 ```json
 {
 	"type" : "long_text",
@@ -18,6 +20,7 @@
 	"maxLength" : 4000
 }
 ```
+### Number
 ```json
 {
 	"type" : "number",
@@ -28,6 +31,7 @@
 	"maxValue" : 999
 }
 ```
+### Rates
 ```json
 {
 	"type" : "rates",
@@ -37,7 +41,7 @@
 	"rates"    : 5
 }
 ```
-
+### Dropdown
 ```json
 {
 	"type" : "dropdown",
@@ -45,11 +49,12 @@
 	"helpText" : "We need this recognise you",
 	"required" : true,
 	"choices" : [
-					"dropdown1",
-					"dropdown2"
-				]
+			"dropdown1",
+			"dropdown2"
+		    ]
 }
 ```
+### Mutiple Choice
 ```json
 {
 	"type" : "mutiple_choice",
@@ -57,9 +62,9 @@
 	"helpText" : "We need this recognise you",
 	"required" : true,
 	"choices" : [
-					"choice1",
-					"choice2"
-				],
+			"choice1",
+			"choice2"
+		    ],
 	"mutipleAllowed" : false			
 }
 ```
