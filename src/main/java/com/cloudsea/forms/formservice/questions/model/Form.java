@@ -55,4 +55,10 @@ public class Form {
 		this.elements = elements;
 	}
 
+	@Override
+	public String toString() {
+		return "Form [id=" + id + ", title=" + title + ", userId=" + userId + ", webHook=" + webHook + ", elements="
+				+ elements + "]";
+	}
+
 }

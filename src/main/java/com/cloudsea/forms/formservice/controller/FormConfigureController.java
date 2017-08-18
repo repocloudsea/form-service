@@ -5,6 +5,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import com.cloudsea.forms.formservice.service.FormsService;
 @RestController
 @RequestMapping(value = "/forms")
 public class FormConfigureController {
+	private static final Logger logger = LoggerFactory.getLogger(FormConfigureController.class);
 
 	private FormsService formService;
 
@@ -31,6 +34,7 @@ public class FormConfigureController {
 	@RequestMapping(method = GET, value = "/id/{id}")
 	public ResponseEntity<Resource<Form>> findById(@PathVariable("id") String id) {
 
+		logger.debug("Searching for form with id -> {}", id);
 		Form form = formService.findById(id);
 		Resource<Form> formresource = new Resource<Form>(form);
 		formresource.add(linkTo(methodOn(getClass()).findById(form.getId())).withSelfRel());
@@ -41,6 +45,7 @@ public class FormConfigureController {
 
 	@RequestMapping(method = POST, value = "/create")
 	public ResponseEntity<Resource<Form>> createForm(@RequestBody Form form) {
+		logger.debug("Creating form with -> {}", form.toString());
 		formService.create(form);
 		Resource<Form> formresource = new Resource<Form>(form);
 		formresource.add(linkTo(methodOn(getClass()).findById(form.getId())).withSelfRel());
