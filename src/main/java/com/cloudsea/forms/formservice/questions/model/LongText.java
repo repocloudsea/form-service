@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.model;
+package com.cloudsea.forms.formservice.questions.model;
 
 public class LongText extends Element {
 
@@ -17,6 +17,12 @@ public class LongText extends Element {
 
 	public LongText(String question, String helpText, boolean required, String attachmentUrl) {
 		super(question, helpText, required, attachmentUrl);
+	}
+
+	@Override
+	public void validate(String value) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,7 +1,8 @@
-package com.cloudsea.forms.formservice.model;
+package com.cloudsea.forms.formservice.questions.model;
 
 import java.util.UUID;
 
+import com.cloudsea.forms.formservice.validate.Validate;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
@@ -15,7 +16,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 		@JsonSubTypes.Type(value = Rate.class, name = "rate"),
 		@JsonSubTypes.Type(value = MutipleChoice.class, name = "mutiple_choice"),
 		@JsonSubTypes.Type(value = Email.class, name = "email") })
-public class Element {
+
+public abstract class Element implements Validate {
 
 	private String refId = UUID.randomUUID().toString();
 

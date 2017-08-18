@@ -3,19 +3,16 @@ package com.cloudsea.forms.formservice.service;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cloudsea.forms.formservice.model.Form;
+import com.cloudsea.forms.formservice.questions.model.Form;
 import com.cloudsea.forms.formservice.repository.FormRepository;
 
 @Service
 public class FormsService {
 
 	private FormRepository formRepository;
-	private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	public FormsService(FormRepository formRepository) {
@@ -23,11 +20,15 @@ public class FormsService {
 	}
 
 	public void create(Form form) {
-		LOGGER.debug(form.toString());
+		if (form == null)
+			throw new IllegalArgumentException("Form cannot be null");
+
 		formRepository.save(form);
 	}
 
 	public Form findById(String id) {
+		if (StringUtils.isBlank(id))
+			throw new IllegalArgumentException("ID Cannot be null or blank");
 		return formRepository.findOne(id);
 	}
 

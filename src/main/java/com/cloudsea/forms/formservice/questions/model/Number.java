@@ -1,4 +1,6 @@
-package com.cloudsea.forms.formservice.model;
+package com.cloudsea.forms.formservice.questions.model;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class Number extends Element {
 
@@ -28,6 +30,19 @@ public class Number extends Element {
 
 	public Number(String question, String helpText, boolean required, String attachmentUrl) {
 		super(question, helpText, required, attachmentUrl);
+	}
+
+	@Override
+	public void validate(String value) throws IllegalArgumentException {
+		if(!StringUtils.isNumeric(value))
+			throw new IllegalArgumentException("Only numeric value allowed");
+		
+		int num = Integer.parseInt(value);
+		
+		if(num<minValue || num>maxValue)
+			throw new IllegalArgumentException(String.format("Value should be between %d - %d ", minValue,maxValue));
+		
+		
 	}
 
 }

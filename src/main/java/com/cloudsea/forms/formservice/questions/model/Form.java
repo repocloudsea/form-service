@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.model;
+package com.cloudsea.forms.formservice.questions.model;
 
 import java.util.List;
 
@@ -11,7 +11,25 @@ public class Form {
 	@Id
 	private String id;
 	private String title;
+	private String userId;
+	private String webHook;
 	private List<Element> elements;
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getWebHook() {
+		return webHook;
+	}
+
+	public void setWebHook(String webHook) {
+		this.webHook = webHook;
+	}
 
 	public String getId() {
 		return id;

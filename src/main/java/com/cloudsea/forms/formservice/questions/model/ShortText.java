@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.model;
+package com.cloudsea.forms.formservice.questions.model;
 
 public class ShortText extends Element {
 
@@ -19,4 +19,9 @@ public class ShortText extends Element {
 		super(question, helpText, required, attachmentUrl);
 	}
 
+	@Override
+	public void validate(String value) throws IllegalArgumentException {
+		if (value.length() > maxLength)
+			throw new IllegalArgumentException(String.format("Maximum %d charecters allowed ", this.maxLength));
+	}
 }
