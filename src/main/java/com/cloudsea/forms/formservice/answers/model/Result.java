@@ -35,4 +35,11 @@ public class Result {
 		this.answers = answers;
 	}
 
+	@Override
+	public String toString() {
+		return "Result [id=" + id + ", formId=" + formId + ", answers=" + answers + "]";
+	}
+	
+	
+
 }

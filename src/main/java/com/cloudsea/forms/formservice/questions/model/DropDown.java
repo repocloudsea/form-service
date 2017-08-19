@@ -2,6 +2,8 @@ package com.cloudsea.forms.formservice.questions.model;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class DropDown extends Element {
 
 	private List<String> choices;
@@ -23,11 +25,12 @@ public class DropDown extends Element {
 
 	@Override
 	public void validate(String value) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 
+		if (isRequired() && StringUtils.isBlank(value))
+			throw new IllegalArgumentException("Cannot be empty");
+
+		if (!choices.contains(value))
+			throw new IllegalArgumentException("");
+	}
 
 }

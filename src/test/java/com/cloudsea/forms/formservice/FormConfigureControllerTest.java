@@ -7,8 +7,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.cloudsea.forms.formservice.controller.FormConfigureController;
-import com.cloudsea.forms.formservice.service.FormsService;
+import com.cloudsea.forms.formservice.question.controller.FormConfigureController;
+import com.cloudsea.forms.formservice.question.service.FormsService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(FormConfigureController.class)
@@ -19,6 +19,5 @@ public class FormConfigureControllerTest {
 
 	@MockBean
 	private FormsService formsService;
-	
 
 }

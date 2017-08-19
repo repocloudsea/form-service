@@ -1,5 +1,7 @@
 package com.cloudsea.forms.formservice.questions.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class ShortText extends Element {
 
 	private int maxLength;
@@ -21,7 +23,15 @@ public class ShortText extends Element {
 
 	@Override
 	public void validate(String value) throws IllegalArgumentException {
+
+		if (isRequired() && StringUtils.isBlank(value))
+			throw new IllegalArgumentException("Cannot be empty");
+
+		if (StringUtils.isBlank(value))
+			throw new IllegalArgumentException("Cannot be empty");
+
 		if (value.length() > maxLength)
 			throw new IllegalArgumentException(String.format("Maximum %d charecters allowed ", this.maxLength));
+
 	}
 }

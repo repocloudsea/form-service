@@ -1,5 +1,7 @@
 package com.cloudsea.forms.formservice.questions.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class LongText extends Element {
 
 	private int maxLength;
@@ -21,8 +23,12 @@ public class LongText extends Element {
 
 	@Override
 	public void validate(String value) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		
+		if (isRequired() && StringUtils.isBlank(value))
+			throw new IllegalArgumentException("Cannot be empty");
+		
+		if (value.length() > maxLength)
+			throw new IllegalArgumentException(String.format("Maximum %d charecters allowed ", this.maxLength));
 	}
 
 }

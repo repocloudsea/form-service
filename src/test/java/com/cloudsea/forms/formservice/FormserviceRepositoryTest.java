@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.cloudsea.forms.formservice.question.repository.FormRepository;
 import com.cloudsea.forms.formservice.questions.model.Form;
-import com.cloudsea.forms.formservice.repository.FormRepository;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest

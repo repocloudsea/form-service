@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.cloudsea.forms.formservice.repository.FormRepository;
-import com.cloudsea.forms.formservice.service.FormsService;
+import com.cloudsea.forms.formservice.question.repository.FormRepository;
+import com.cloudsea.forms.formservice.question.service.FormsService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class FormServiceTest {

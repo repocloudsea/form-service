@@ -34,15 +34,18 @@ public class Number extends Element {
 
 	@Override
 	public void validate(String value) throws IllegalArgumentException {
-		if(!StringUtils.isNumeric(value))
+		
+		if (isRequired() && StringUtils.isBlank(value))
+			throw new IllegalArgumentException("Cannot be empty");
+
+		if (!StringUtils.isNumeric(value))
 			throw new IllegalArgumentException("Only numeric value allowed");
-		
+
 		int num = Integer.parseInt(value);
-		
-		if(num<minValue || num>maxValue)
-			throw new IllegalArgumentException(String.format("Value should be between %d - %d ", minValue,maxValue));
-		
-		
+
+		if (num < minValue || num > maxValue)
+			throw new IllegalArgumentException(String.format("Value should be between %d - %d ", minValue, maxValue));
+
 	}
 
 }

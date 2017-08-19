@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.controller;
+package com.cloudsea.forms.formservice.question.controller;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cloudsea.forms.formservice.question.service.FormsService;
 import com.cloudsea.forms.formservice.questions.model.Form;
-import com.cloudsea.forms.formservice.service.FormsService;
 
 @RestController
 @RequestMapping(value = "/forms")
