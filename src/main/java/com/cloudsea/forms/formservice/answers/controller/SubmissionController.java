@@ -59,6 +59,7 @@ public class SubmissionController {
 		List<Answers> answers = new ArrayList<>();
 
 		Map<String, Element> map = getElementMap(form.getElements());
+		
 		for (AnswerDTO answer : answersDTO) {
 			Element elm = map.get(answer.getFieldRefID());
 			ValidationResult validationResult = elm.validate(answer.getValue());

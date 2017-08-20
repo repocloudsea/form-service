@@ -27,6 +27,7 @@ public class Rate extends Element {
 
 	@Override
 	public ValidationResult validate(String value) throws IllegalArgumentException {
+		
 		if (isRequired() && StringUtils.isBlank(value))
 			return new ValidationResult(getRefId(), "Cannot be empty");
 

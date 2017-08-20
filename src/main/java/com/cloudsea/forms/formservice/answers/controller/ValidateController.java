@@ -2,8 +2,6 @@ package com.cloudsea.forms.formservice.answers.controller;
 
 import static com.cloudsea.forms.formservice.utils.Utils.getElementMap;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cloudsea.forms.formservice.answers.model.AnswerDTO;
-import com.cloudsea.forms.formservice.answers.model.ResultDTO;
 import com.cloudsea.forms.formservice.question.service.FormsService;
 import com.cloudsea.forms.formservice.questions.model.Element;
 import com.cloudsea.forms.formservice.questions.model.Form;

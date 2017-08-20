@@ -4,17 +4,8 @@ import java.util.List;
 
 public class ResultDTO {
 
-	private String id;
 	private String formId;
 	private List<AnswerDTO> answers;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getFormId() {
 		return formId;
@@ -34,7 +25,7 @@ public class ResultDTO {
 
 	@Override
 	public String toString() {
-		return "Result [id=" + id + ", formId=" + formId + ", answers=" + answers + "]";
+		return "Result [formId=" + formId + ", answers=" + answers + "]";
 	}
 
 }

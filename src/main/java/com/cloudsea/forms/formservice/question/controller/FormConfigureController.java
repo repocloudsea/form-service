@@ -53,6 +53,7 @@ public class FormConfigureController {
 		return getFormResource(form);
 	}
 
+	//TODO remove this method or do null checks 
 	@RequestMapping(method = PATCH, value = "/update/{id}/status/{status}")
 	public ResponseEntity<Resource<Form>> update(@PathVariable("status") String status,
 			@PathVariable("id") String formId) {
@@ -88,19 +89,16 @@ public class FormConfigureController {
 			Map<String, String> map = new HashMap<>();
 			map.put("title", form.getTitle());
 			map.put("link", linkTo(methodOn(getClass()).findById(form.getId())).withSelfRel().getHref());
+			map.put("update_status", linkTo(methodOn(getClass()).update("{status}", form.getId() )).withRel("update_status").getHref());
 			map.put("status", form.getStatus() + "");
 			if (form.getStatus() == FormStatus.OPEN) {
-				map.put("publicLink", "http://www.cloudsea.in/forms/display/" + form.getId());
+				map.put("publicLink", "http://www.form.cloudsea.in/forms/display/" + form.getId());
 			}
-
 			userForms.add(map);
 		}
-
 		return userForms;
-
 	}
 
-	// TODO create individual links for forms
 	private ResponseEntity<Resource<Form>> getFormResource(Form form) {
 		Resource<Form> formresource = new Resource<Form>(form);
 		formresource.add(linkTo(methodOn(getClass()).findById(form.getId())).withSelfRel());
