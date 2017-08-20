@@ -1,5 +1,12 @@
 package com.cloudsea.forms.formservice;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,8 +23,15 @@ public class FormConfigureControllerTest {
 
 	@Autowired
 	private MockMvc mockmvc;
-
+	
 	@MockBean
 	private FormsService formsService;
+	
+	@Test
+	public void createFormAndShouldReturnTheCreatedForm() throws Exception{
+		mockmvc.perform(post("/forms/create")).andDo(print()).andExpect(status().isCreated()).
+		andExpect(content().json("formId")).andDo(document("home"));
+		
+	}
 
 }
