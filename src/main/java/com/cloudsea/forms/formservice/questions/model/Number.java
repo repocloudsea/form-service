@@ -2,6 +2,10 @@ package com.cloudsea.forms.formservice.questions.model;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.cloudsea.forms.formservice.validate.ValidationResult;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName(value = "number")
 public class Number extends Element {
 
 	private Integer minValue;
@@ -33,19 +37,20 @@ public class Number extends Element {
 	}
 
 	@Override
-	public void validate(String value) throws IllegalArgumentException {
-		
+	public ValidationResult validate(String value) throws IllegalArgumentException {
+
 		if (isRequired() && StringUtils.isBlank(value))
-			throw new IllegalArgumentException("Cannot be empty");
+			return new ValidationResult(getRefId(), "Cannot be empty");
 
 		if (!StringUtils.isNumeric(value))
-			throw new IllegalArgumentException("Only numeric value allowed");
+			return new ValidationResult(getRefId(), "Only numeric value allowed");
 
 		int num = Integer.parseInt(value);
 
 		if (num < minValue || num > maxValue)
-			throw new IllegalArgumentException(String.format("Value should be between %d - %d ", minValue, maxValue));
+			return new ValidationResult(getRefId(), String.format("Value should be between %d - %d ", minValue, maxValue));
 
+		return null;
 	}
 
 }

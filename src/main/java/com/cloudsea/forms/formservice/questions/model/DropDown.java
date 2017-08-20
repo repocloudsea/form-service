@@ -4,6 +4,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.cloudsea.forms.formservice.validate.ValidationResult;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName(value = "dropDown")
 public class DropDown extends Element {
 
 	private List<String> choices;
@@ -24,13 +28,15 @@ public class DropDown extends Element {
 	}
 
 	@Override
-	public void validate(String value) throws IllegalArgumentException {
+	public ValidationResult validate(String value) throws IllegalArgumentException {
 
 		if (isRequired() && StringUtils.isBlank(value))
-			throw new IllegalArgumentException("Cannot be empty");
+			return new ValidationResult(getRefId(), "Cannot be empty");
 
 		if (!choices.contains(value))
-			throw new IllegalArgumentException("");
+			return new ValidationResult(getRefId(), "Mismach found");
+
+		return null;
 	}
 
 }

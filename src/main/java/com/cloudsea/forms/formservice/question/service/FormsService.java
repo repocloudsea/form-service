@@ -1,16 +1,12 @@
 package com.cloudsea.forms.formservice.question.service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.cloudsea.forms.formservice.question.repository.FormRepository;
-import com.cloudsea.forms.formservice.questions.model.Element;
 import com.cloudsea.forms.formservice.questions.model.Form;
 
 @Service
@@ -44,5 +40,11 @@ public class FormsService {
 		if (StringUtils.isBlank(title))
 			throw new IllegalArgumentException("Title cannot be blank");
 		return formRepository.findByTitle(title);
+	}
+
+	public List<Form> findByUserId(String userId) {
+		if (StringUtils.isBlank(userId))
+			throw new IllegalArgumentException("User cannot be blank");
+		return formRepository.findByUserId(userId);
 	}
 }

@@ -2,7 +2,7 @@ package com.cloudsea.forms.formservice.answers.model;
 
 import java.util.UUID;
 
-public class Answer {
+public class AnswerDTO {
 
 	private String id = UUID.randomUUID().toString();
 	private String fieldRefID;

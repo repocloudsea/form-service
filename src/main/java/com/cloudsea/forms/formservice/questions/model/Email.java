@@ -1,5 +1,9 @@
 package com.cloudsea.forms.formservice.questions.model;
 
+import com.cloudsea.forms.formservice.validate.ValidationResult;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName(value = "email")
 public class Email extends Element {
 
 	private String email;
@@ -20,9 +24,13 @@ public class Email extends Element {
 	}
 
 	@Override
-	public void validate(String value) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+	public ValidationResult validate( String value) throws IllegalArgumentException {
+
+		if (!value.contains("@"))
+			return new ValidationResult(getRefId(), "Email invalid");
+
+		return null;
+
 	}
 
 }

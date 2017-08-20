@@ -13,6 +13,7 @@ public class Form {
 	private String title;
 	private String userId;
 	private String webHook;
+	private FormStatus status = FormStatus.DORMANT;
 	private List<Element> elements;
 
 	public String getUserId() {
@@ -53,6 +54,14 @@ public class Form {
 
 	public void setElements(List<Element> elements) {
 		this.elements = elements;
+	}
+
+	public FormStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(FormStatus status) {
+		this.status = status;
 	}
 
 	@Override

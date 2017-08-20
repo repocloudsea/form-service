@@ -2,14 +2,11 @@ package com.cloudsea.forms.formservice.answers.model;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
-public class Result {
+public class ResultDTO {
 
 	private String id;
 	private String formId;
-	private List<Answers> answers;
+	private List<AnswerDTO> answers;
 
 	public String getId() {
 		return id;
@@ -27,12 +24,17 @@ public class Result {
 		this.formId = formId;
 	}
 
-	public List<Answers> getAnswers() {
+	public List<AnswerDTO> getAnswers() {
 		return answers;
 	}
 
-	public void setAnswers(List<Answers> answers) {
+	public void setAnswers(List<AnswerDTO> answers) {
 		this.answers = answers;
+	}
+
+	@Override
+	public String toString() {
+		return "Result [id=" + id + ", formId=" + formId + ", answers=" + answers + "]";
 	}
 
 }

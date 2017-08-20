@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.cloudsea.forms.formservice.validate.ValidationResult;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
+@JsonTypeName(value = "mutipleChoice")
 public class MutipleChoice extends Element {
 
 	private List<String> choices;
@@ -35,26 +39,24 @@ public class MutipleChoice extends Element {
 	}
 
 	@Override
-	public void validate(String value) throws IllegalArgumentException {
-
+	public ValidationResult validate( String value) throws IllegalArgumentException {
 		if (isRequired() && StringUtils.isBlank(value))
-			throw new IllegalArgumentException("Cannot be empty");
+			return new ValidationResult(getRefId(), "Cannot be empty");
 
 		if (mutipleAllowed) {
 			List<String> answers = Arrays.asList(value.split(","));
 
 			if (answers.size() > choices.size())
-				throw new IllegalArgumentException("");
+				return new ValidationResult(getRefId(), "Mismatch found");
 
 			if (Collections.disjoint(answers, choices))
-				throw new IllegalArgumentException("");
+				return new ValidationResult(getRefId(), "Mismatch found");
 
 		} else {
 			if (!choices.contains(value))
-				throw new IllegalArgumentException("");
-
+				return new ValidationResult(getRefId(), "Mismatch found");
 		}
-
+		return null;
 	}
 
 }

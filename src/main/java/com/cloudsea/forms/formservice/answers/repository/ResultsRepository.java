@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.cloudsea.forms.formservice.answers.model.Result;
 
-public interface ResultsRepository extends MongoRepository<Result, String> {
+public interface ResultsRepository extends MongoRepository<Result,String> {
 
 	List<Result> findByFormId(String id);
 }

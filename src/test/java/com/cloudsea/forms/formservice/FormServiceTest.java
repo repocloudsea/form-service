@@ -22,10 +22,15 @@ public class FormServiceTest {
 	public void whenNullFormThorwIllegalArgumentExceptiom() {
 		formsService.create(null);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
-	public void whenNullIdThrowIllegalArgumentException(){
+	public void whenNullIdThrowIllegalArgumentException() {
 		formsService.findById(null);
 	}
-	
+
+	@Test(expected = IllegalArgumentException.class)
+	public void whenUserIsNullIdThrowIllegalArgumentException() {
+		formsService.findByUserId(null);
+	}
+
 }

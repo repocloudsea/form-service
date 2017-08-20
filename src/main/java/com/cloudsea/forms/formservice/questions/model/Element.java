@@ -9,13 +9,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 @JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
-@JsonSubTypes({ @JsonSubTypes.Type(value = ShortText.class, name = "short_text"),
-		@JsonSubTypes.Type(value = LongText.class, name = "long_text"),
-		@JsonSubTypes.Type(value = DropDown.class, name = "dropdown"),
-		@JsonSubTypes.Type(value = Number.class, name = "number"),
-		@JsonSubTypes.Type(value = Rate.class, name = "rate"),
-		@JsonSubTypes.Type(value = MutipleChoice.class, name = "mutiple_choice"),
-		@JsonSubTypes.Type(value = Email.class, name = "email") })
+@JsonSubTypes({ @JsonSubTypes.Type(value = ShortText.class), @JsonSubTypes.Type(value = LongText.class),
+		@JsonSubTypes.Type(value = DropDown.class), @JsonSubTypes.Type(value = Number.class),
+		@JsonSubTypes.Type(value = Rate.class), @JsonSubTypes.Type(value = MutipleChoice.class),
+		@JsonSubTypes.Type(value = Email.class), @JsonSubTypes.Type(value = PhoneNumber.class) })
 
 public abstract class Element implements Validate {
 
