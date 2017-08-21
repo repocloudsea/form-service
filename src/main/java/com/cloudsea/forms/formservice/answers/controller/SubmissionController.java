@@ -29,6 +29,7 @@ import com.cloudsea.forms.formservice.questions.model.Form;
 import com.cloudsea.forms.formservice.validate.ValidationResult;
 
 @RestController
+@RequestMapping("/forms")
 public class SubmissionController {
 
 	private static final Logger logger = LoggerFactory.getLogger(SubmissionController.class);

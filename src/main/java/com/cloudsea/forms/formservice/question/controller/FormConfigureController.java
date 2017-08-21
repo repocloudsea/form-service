@@ -14,7 +14,9 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,13 +55,15 @@ public class FormConfigureController {
 		return getFormResource(form);
 	}
 
-	//TODO remove this method or do null checks 
-	@RequestMapping(method = PATCH, value = "/update/{id}/status/{status}")
+	@RequestMapping(method = PATCH, value = "/update/{formId}/status/{status}")
 	public ResponseEntity<Resource<Form>> update(@PathVariable("status") String status,
-			@PathVariable("id") String formId) {
+			@PathVariable("formId") String formId) {
 		logger.debug("Updaing form with status -> {}", status);
 
 		Form form = formService.findById(formId);
+		if (form.getStatus() == null)
+			throw new IllegalArgumentException("Status cannot be null");
+
 		form.setStatus(FormStatus.valueOf(status));
 		formService.create(form);
 		return getFormResource(form);
@@ -78,25 +82,32 @@ public class FormConfigureController {
 	}
 
 	@RequestMapping(method = GET, value = "/user/{id}")
-	public List<Map<String, String>> findByUserId(@PathVariable("id") String userId) {
+	public ResponseEntity<Resources<Resource<Map<String, String>>>> findByUserId(@PathVariable("id") String userId) {
 
 		logger.debug("Searching for form with userid -> {}", userId);
 		List<Form> forms = formService.findByUserId(userId);
 
-		List<Map<String, String>> userForms = new ArrayList<>();
-
+		List<Resource<Map<String, String>>> listResource = new ArrayList<>();
 		for (Form form : forms) {
-			Map<String, String> map = new HashMap<>();
-			map.put("title", form.getTitle());
-			map.put("link", linkTo(methodOn(getClass()).findById(form.getId())).withSelfRel().getHref());
-			map.put("update_status", linkTo(methodOn(getClass()).update("{status}", form.getId() )).withRel("update_status").getHref());
-			map.put("status", form.getStatus() + "");
-			if (form.getStatus() == FormStatus.OPEN) {
-				map.put("publicLink", "http://www.form.cloudsea.in/forms/display/" + form.getId());
-			}
-			userForms.add(map);
+			Map<String, String> userFormMap = new HashMap<>();
+			userFormMap.put("title", form.getTitle());
+			userFormMap.put("status", form.getStatus() + "");
+			Resource<Map<String, String>> userFormResource = new Resource<Map<String, String>>(userFormMap);
+			userFormResource.add(linkTo(methodOn(getClass()).findById(form.getId())).withSelfRel());
+			userFormResource
+					.add(linkTo(methodOn(getClass()).update("{status}", form.getId()))
+							.withRel("update_status"));
+
+			if (form.getStatus() == FormStatus.OPEN)
+				userFormResource.add(new Link("http://api.cloudsea.in/myforms/display/" + form.getId(), "public"));
+
+			listResource.add(userFormResource);
 		}
-		return userForms;
+
+		Link selfLink = linkTo(methodOn(getClass()).findById(userId)).withSelfRel();
+
+		Resources<Resource<Map<String, String>>> resourceList = new Resources<>(listResource, selfLink);
+		return new ResponseEntity<Resources<Resource<Map<String, String>>>>(resourceList, HttpStatus.OK);
 	}
 
 	private ResponseEntity<Resource<Form>> getFormResource(Form form) {
