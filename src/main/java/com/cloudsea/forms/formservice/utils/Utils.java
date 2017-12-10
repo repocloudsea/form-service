@@ -1,12 +1,10 @@
 package com.cloudsea.forms.formservice.utils;
 
-import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.cloudsea.forms.formservice.questions.model.Element;
-import com.cloudsea.forms.formservice.validate.ValidationResult;
+import com.cloudsea.forms.formservice.question.model.Element;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 public class Utils {

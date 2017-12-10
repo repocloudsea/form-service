@@ -6,8 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cloudsea.forms.formservice.question.model.Form;
 import com.cloudsea.forms.formservice.question.repository.FormRepository;
-import com.cloudsea.forms.formservice.questions.model.Form;
+import com.cloudsea.forms.formservice.validate.Validate;
 
 @Service
 public class FormsService {
@@ -22,6 +23,13 @@ public class FormsService {
 	public void create(Form form) {
 		if (form == null)
 			throw new IllegalArgumentException("Form cannot be null");
+
+		if (form.getElements() == null)
+			throw new IllegalArgumentException("There should be atleast one element in the form");
+		
+		form.getElements()
+			.stream()
+			.forEach(Validate::validateElements);
 
 		formRepository.save(form);
 	}

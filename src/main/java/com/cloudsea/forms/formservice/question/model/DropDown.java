@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.questions.model;
+package com.cloudsea.forms.formservice.question.model;
 
 import java.util.List;
 
@@ -38,5 +38,12 @@ public class DropDown extends Element {
 
 		return null;
 	}
+
+	@Override
+	public void validateElements() throws IllegalArgumentException {
+		if (this.choices == null || this.choices.size()<2)
+			throw new IllegalArgumentException("There must be atleast two choices");
+	}
+
 
 }

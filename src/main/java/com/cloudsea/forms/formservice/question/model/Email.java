@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.questions.model;
+package com.cloudsea.forms.formservice.question.model;
 
 import com.cloudsea.forms.formservice.validate.ValidationResult;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -31,6 +31,11 @@ public class Email extends Element {
 
 		return null;
 
+	}
+
+	@Override
+	public void validateElements() throws IllegalArgumentException {
+		
 	}
 
 }

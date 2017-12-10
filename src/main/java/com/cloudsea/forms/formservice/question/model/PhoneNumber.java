@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.questions.model;
+package com.cloudsea.forms.formservice.question.model;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -37,6 +37,10 @@ public class PhoneNumber extends Element {
 			return new ValidationResult(getRefId(), "Only numeric value allowed");
 
 		return null;
+	}
+
+	@Override
+	public void validateElements() throws IllegalArgumentException {		
 	}
 
 }

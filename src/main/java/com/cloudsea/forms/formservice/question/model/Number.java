@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.questions.model;
+package com.cloudsea.forms.formservice.question.model;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -48,9 +48,19 @@ public class Number extends Element {
 		int num = Integer.parseInt(value);
 
 		if (num < minValue || num > maxValue)
-			return new ValidationResult(getRefId(), String.format("Value should be between %d - %d ", minValue, maxValue));
+			return new ValidationResult(getRefId(),
+					String.format("Value should be between %d - %d ", minValue, maxValue));
 
 		return null;
+	}
+
+	@Override
+	public void validateElements() throws IllegalArgumentException {
+
+		if (this.maxValue > Integer.MAX_VALUE || this.minValue < Integer.MIN_VALUE)
+			throw new IllegalArgumentException(
+					String.format("Range limited from %d to %d only ", Integer.MAX_VALUE, Integer.MIN_VALUE));
+
 	}
 
 }

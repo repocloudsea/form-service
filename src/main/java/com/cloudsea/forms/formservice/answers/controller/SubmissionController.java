@@ -23,9 +23,9 @@ import com.cloudsea.forms.formservice.answers.model.Answers;
 import com.cloudsea.forms.formservice.answers.model.Result;
 import com.cloudsea.forms.formservice.answers.model.ResultDTO;
 import com.cloudsea.forms.formservice.answers.service.ResultsService;
+import com.cloudsea.forms.formservice.question.model.Element;
+import com.cloudsea.forms.formservice.question.model.Form;
 import com.cloudsea.forms.formservice.question.service.FormsService;
-import com.cloudsea.forms.formservice.questions.model.Element;
-import com.cloudsea.forms.formservice.questions.model.Form;
 import com.cloudsea.forms.formservice.validate.ValidationResult;
 
 @RestController

@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.questions.model;
+package com.cloudsea.forms.formservice.question.model;
 
 import java.util.UUID;
 

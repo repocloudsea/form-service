@@ -1,14 +1,14 @@
-package com.cloudsea.forms.formservice.questions.model;
+package com.cloudsea.forms.formservice.question.model;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.cloudsea.forms.formservice.validate.ValidationResult;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName(value = "longText")
-public class LongText extends Element {
+@JsonTypeName(value="shortText")
+public class ShortText extends Element {
 
-	private int maxLength;
+	private int maxLength = 100;
 
 	public int getMaxLength() {
 		return maxLength;
@@ -18,10 +18,10 @@ public class LongText extends Element {
 		this.maxLength = maxLength;
 	}
 
-	public LongText() {
+	public ShortText() {
 	}
 
-	public LongText(String question, String helpText, boolean required, String attachmentUrl) {
+	public ShortText(String question, String helpText, boolean required, String attachmentUrl) {
 		super(question, helpText, required, attachmentUrl);
 	}
 
@@ -33,9 +33,14 @@ public class LongText extends Element {
 
 		if (value.length() > maxLength)
 			return new ValidationResult(getRefId(), String.format("Maximum %d charecters allowed ", this.maxLength));
-
+		
 		return null;
 
 	}
 
+	@Override
+	public void validateElements() throws IllegalArgumentException {
+		if(this.maxLength > 100)
+			throw new IllegalArgumentException("Max length can only 100");
+	}
 }

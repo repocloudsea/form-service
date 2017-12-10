@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.questions.model;
+package com.cloudsea.forms.formservice.question.model;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,7 +39,7 @@ public class MutipleChoice extends Element {
 	}
 
 	@Override
-	public ValidationResult validate( String value) throws IllegalArgumentException {
+	public ValidationResult validate(String value) throws IllegalArgumentException {
 		if (isRequired() && StringUtils.isBlank(value))
 			return new ValidationResult(getRefId(), "Cannot be empty");
 
@@ -57,6 +57,12 @@ public class MutipleChoice extends Element {
 				return new ValidationResult(getRefId(), "Mismatch found");
 		}
 		return null;
+	}
+
+	@Override
+	public void validateElements() throws IllegalArgumentException {
+		if(this.choices==null || this.choices.size()<2)
+			throw new IllegalArgumentException("There must be atleast two choices");		
 	}
 
 }

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cloudsea.forms.formservice.question.model.Element;
+import com.cloudsea.forms.formservice.question.model.Form;
 import com.cloudsea.forms.formservice.question.service.FormsService;
-import com.cloudsea.forms.formservice.questions.model.Element;
-import com.cloudsea.forms.formservice.questions.model.Form;
 import com.cloudsea.forms.formservice.validate.ValidationResult;
 
 @RestController

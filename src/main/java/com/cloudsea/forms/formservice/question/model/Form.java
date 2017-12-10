@@ -1,6 +1,8 @@
-package com.cloudsea.forms.formservice.questions.model;
+package com.cloudsea.forms.formservice.question.model;
 
 import java.util.List;
+
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,9 +12,12 @@ public class Form {
 
 	@Id
 	private String id;
+	@NotNull
 	private String title;
+	@NotNull
 	private String userId;
 	private String webHook;
+	@NotNull
 	private FormStatus status = FormStatus.DORMANT;
 	private List<Element> elements;
 

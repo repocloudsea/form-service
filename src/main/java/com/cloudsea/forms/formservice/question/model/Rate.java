@@ -1,4 +1,4 @@
-package com.cloudsea.forms.formservice.questions.model;
+package com.cloudsea.forms.formservice.question.model;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName(value = "rate")
 public class Rate extends Element {
 
-	private Integer rates;
+	private Integer rates = 5;
 
 	public Integer getRates() {
 		return rates;
@@ -38,6 +38,12 @@ public class Rate extends Element {
 			return new ValidationResult(getRefId(), String.format("Maximum %d charecters allowed ", this.rates));
 
 		return null;
+	}
+
+	@Override
+	public void validateElements() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
