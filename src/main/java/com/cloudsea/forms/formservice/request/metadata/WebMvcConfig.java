@@ -26,7 +26,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 				RequestMetadata requestMetadata = new RequestMetadata();
 				requestMetadata.setRemoteIPAddress(request.getRemoteAddr());
 				requestMetadata.setUserAgent(request.getHeader("user-agent"));
-				requestMetadata.setUserLocale(request.getLocalName());
+				requestMetadata.setUserLocale(request.getHeader("accept-language"));
 				
 				requestMetadataRepository.save(requestMetadata);
 

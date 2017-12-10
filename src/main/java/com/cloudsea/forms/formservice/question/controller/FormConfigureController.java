@@ -3,7 +3,6 @@ package com.cloudsea.forms.formservice.question.controller;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.PATCH;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,14 +20,15 @@ import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.util.UriTemplate;
 
+import com.cloudsea.forms.formservice.exception.FormNotFoundException;
 import com.cloudsea.forms.formservice.question.model.Form;
 import com.cloudsea.forms.formservice.question.model.FormStatus;
 import com.cloudsea.forms.formservice.question.service.FormsService;
@@ -48,7 +48,6 @@ public class FormConfigureController {
 	@PostMapping
 	public ResponseEntity<Resource<Form>> createForm(@Valid @RequestBody Form form) {
 		logger.debug("Creating form with -> {}", form.toString());
-		((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getHeaderNames();
 		formService.create(form);
 		return getFormResource(form);
 	}
@@ -64,10 +63,21 @@ public class FormConfigureController {
 			Map<String, String> userFormMap = new HashMap<>();
 			userFormMap.put("title", form.getTitle());
 			userFormMap.put("status", form.getStatus() + "");
+
+			
+			Map<String, String> updateMap = new HashMap<>();
+			updateMap.put("status", "OPEN");
+			
+			
 			Resource<Map<String, String>> userFormResource = new Resource<Map<String, String>>(userFormMap);
 			userFormResource.add(linkTo(methodOn(getClass()).findById(form.getId())).withSelfRel());
 			userFormResource
-					.add(linkTo(methodOn(getClass()).update("{status}", form.getId())).withRel("update_status"));
+					.add(linkTo(methodOn(getClass()).updateStatus(form.getId(), updateMap)).withRel("update_status"));
+			
+			
+			userFormResource.add(new Link("","status"));
+
+			
 
 			if (form.getStatus() == FormStatus.OPEN)
 				userFormResource.add(new Link("http://api.cloudsea.in/myforms/display/" + form.getId(), "public"));
@@ -81,16 +91,16 @@ public class FormConfigureController {
 		return new ResponseEntity<Resources<Resource<Map<String, String>>>>(resourceList, HttpStatus.OK);
 	}
 
-	@RequestMapping(method = PATCH, value = "/update/{formId}/status/{status}")
-	public ResponseEntity<Resource<Form>> update(@PathVariable("status") String status,
-			@PathVariable("formId") String formId) {
-		logger.debug("Updaing form with status -> {}", status);
+	@PatchMapping(value = "/{id}")
+	public ResponseEntity<Resource<Form>> updateStatus(@PathVariable("id") String id,
+			@RequestBody Map<String, String> updateItemMap) {
+		logger.debug("Updaing form with is -> {}", id);
 
-		Form form = formService.findById(formId);
-		if (form.getStatus() == null)
-			throw new IllegalArgumentException("Status cannot be null");
-
-		form.setStatus(FormStatus.valueOf(status));
+		Form form = formService.findById(id);
+		if (form == null)
+			throw new FormNotFoundException(String.format("Form with id %s was not found", id));
+		
+		form.setStatus(FormStatus.valueOf(updateItemMap.get("status")));
 		formService.create(form);
 		return getFormResource(form);
 	}
