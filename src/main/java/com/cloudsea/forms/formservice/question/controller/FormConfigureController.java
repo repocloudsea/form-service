@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.cloudsea.forms.formservice.question.model.Form;
 import com.cloudsea.forms.formservice.question.model.FormStatus;
@@ -46,6 +48,7 @@ public class FormConfigureController {
 	@PostMapping
 	public ResponseEntity<Resource<Form>> createForm(@Valid @RequestBody Form form) {
 		logger.debug("Creating form with -> {}", form.toString());
+		((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getHeaderNames();
 		formService.create(form);
 		return getFormResource(form);
 	}

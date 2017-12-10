@@ -42,7 +42,8 @@ public class Rate extends Element {
 
 	@Override
 	public void validateElements() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		if(this.rates >10)
+			throw new IllegalArgumentException("Only 10 rating are allowed");
 		
 	}
 
