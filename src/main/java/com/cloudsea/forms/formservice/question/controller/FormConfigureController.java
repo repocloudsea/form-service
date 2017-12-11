@@ -5,7 +5,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriTemplate;
 
 import com.cloudsea.forms.formservice.exception.FormNotFoundException;
+import com.cloudsea.forms.formservice.question.dto.UserForm;
 import com.cloudsea.forms.formservice.question.model.Form;
 import com.cloudsea.forms.formservice.question.model.FormStatus;
 import com.cloudsea.forms.formservice.question.service.FormsService;
@@ -53,42 +52,23 @@ public class FormConfigureController {
 	}
 
 	@GetMapping(value = "/userid/{userId}")
-	public ResponseEntity<Resources<Resource<Map<String, String>>>> findByUserId(
-			@PathVariable("userId") String userId) {
+	public ResponseEntity<Resources<Resource<UserForm>>> findByUserId(@PathVariable("userId") String userId) {
 
 		logger.debug("Searching all form created by userid -> {}", userId);
 		List<Form> forms = formService.findByUserId(userId);
-		List<Resource<Map<String, String>>> listResource = new ArrayList<>();
+		List<Resource<UserForm>> listResource = new ArrayList<>();
+
 		for (Form form : forms) {
-			Map<String, String> userFormMap = new HashMap<>();
-			userFormMap.put("title", form.getTitle());
-			userFormMap.put("status", form.getStatus() + "");
-
-			
-			Map<String, String> updateMap = new HashMap<>();
-			updateMap.put("status", "OPEN");
-			
-			
-			Resource<Map<String, String>> userFormResource = new Resource<Map<String, String>>(userFormMap);
+			UserForm userForms = new UserForm(form.getTitle(), form.getStatus().name());
+			Resource<UserForm> userFormResource = new Resource<UserForm>(userForms);
 			userFormResource.add(linkTo(methodOn(getClass()).findById(form.getId())).withSelfRel());
-			userFormResource
-					.add(linkTo(methodOn(getClass()).updateStatus(form.getId(), updateMap)).withRel("update_status"));
-			
-			
-			userFormResource.add(new Link("","status"));
-
-			
-
-			if (form.getStatus() == FormStatus.OPEN)
-				userFormResource.add(new Link("http://api.cloudsea.in/myforms/display/" + form.getId(), "public"));
-
+			addPublicLinkIfStatusIsOpen(form, userFormResource);
 			listResource.add(userFormResource);
 		}
 
 		Link selfLink = linkTo(methodOn(getClass()).findById(userId)).withSelfRel();
-
-		Resources<Resource<Map<String, String>>> resourceList = new Resources<>(listResource, selfLink);
-		return new ResponseEntity<Resources<Resource<Map<String, String>>>>(resourceList, HttpStatus.OK);
+		Resources<Resource<UserForm>> resourceList = new Resources<>(listResource, selfLink);
+		return new ResponseEntity<Resources<Resource<UserForm>>>(resourceList, HttpStatus.OK);
 	}
 
 	@PatchMapping(value = "/{id}")
@@ -99,7 +79,7 @@ public class FormConfigureController {
 		Form form = formService.findById(id);
 		if (form == null)
 			throw new FormNotFoundException(String.format("Form with id %s was not found", id));
-		
+
 		form.setStatus(FormStatus.valueOf(updateItemMap.get("status")));
 		formService.create(form);
 		return getFormResource(form);
@@ -124,6 +104,11 @@ public class FormConfigureController {
 		ResponseEntity<Resource<Form>> responseEntity = new ResponseEntity<Resource<Form>>(formresource,
 				HttpStatus.CREATED);
 		return responseEntity;
+	}
+
+	private void addPublicLinkIfStatusIsOpen(Form form, Resource<UserForm> userFormResource) {
+		if (form.getStatus() == FormStatus.OPEN)
+			userFormResource.add(new Link("http://api.cloudsea.in/myforms/display/" + form.getId(), "public"));
 	}
 
 }
