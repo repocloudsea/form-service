@@ -13,46 +13,47 @@ import com.cloudsea.forms.formservice.validate.Validate;
 @Service
 public class FormsService {
 
-	private FormRepository formRepository;
+    private FormRepository formRepository;
 
-	@Autowired
-	public FormsService(FormRepository formRepository) {
-		this.formRepository = formRepository;
-	}
+    @Autowired
+    public FormsService(FormRepository formRepository) {
+        this.formRepository = formRepository;
+    }
 
-	public void create(Form form) {
-		if (form == null)
-			throw new IllegalArgumentException("Form cannot be null");
+    public void create(Form form) {
+        if (form == null)
+            throw new IllegalArgumentException("Form cannot be null");
 
-		if (form.getElements() == null)
-			throw new IllegalArgumentException("There should be atleast one element in the form");
-		
-		form.getElements()
-			.stream()
-			.forEach(Validate::validateElements);
+        if (form.getElements() != null) {
 
-		formRepository.save(form);
-	}
+            form.getElements()
+                    .stream()
+                    .forEach(Validate::validateElements);
+        }
 
-	public Form findById(String id) {
-		if (StringUtils.isBlank(id))
-			throw new IllegalArgumentException("ID Cannot be null or blank");
-		return formRepository.findOne(id);
-	}
 
-	public List<Form> findAll() {
-		return formRepository.findAll();
-	}
+        formRepository.save(form);
+    }
 
-	public List<Form> findByTitle(String title) {
-		if (StringUtils.isBlank(title))
-			throw new IllegalArgumentException("Title cannot be blank");
-		return formRepository.findByTitle(title);
-	}
+    public Form findById(String id) {
+        if (StringUtils.isBlank(id))
+            throw new IllegalArgumentException("ID Cannot be null or blank");
+        return formRepository.findOne(id);
+    }
 
-	public List<Form> findByUserId(String userId) {
-		if (StringUtils.isBlank(userId))
-			throw new IllegalArgumentException("User cannot be blank");
-		return formRepository.findByUserId(userId);
-	}
+    public List<Form> findAll() {
+        return formRepository.findAll();
+    }
+
+    public List<Form> findByTitle(String title) {
+        if (StringUtils.isBlank(title))
+            throw new IllegalArgumentException("Title cannot be blank");
+        return formRepository.findByTitle(title);
+    }
+
+    public List<Form> findByUserId(String userId) {
+        if (StringUtils.isBlank(userId))
+            throw new IllegalArgumentException("User cannot be blank");
+        return formRepository.findByUserId(userId);
+    }
 }
