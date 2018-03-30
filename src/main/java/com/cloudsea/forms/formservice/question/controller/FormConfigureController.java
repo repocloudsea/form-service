@@ -17,6 +17,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -51,7 +52,7 @@ public class FormConfigureController {
 		return getFormResource(form);
 	}
 
-	@GetMapping(value = "/userid/{userId}")
+	@GetMapping(value = "/userid/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Resources<Resource<UserForm>>> findByUserId(@PathVariable("userId") String userId) {
 
 		logger.debug("Searching all form created by userid -> {}", userId);
@@ -73,19 +74,18 @@ public class FormConfigureController {
 
 	@PatchMapping(value = "/{id}")
 	public ResponseEntity<Resource<Form>> updateStatus(@PathVariable("id") String id,
-			@RequestBody Map<String, String> updateItemMap) {
+			@RequestBody Form form) {
 		logger.debug("Updaing form with is -> {}", id);
 
-		Form form = formService.findById(id);
-		if (form == null)
+		Form formDb = formService.findById(id);
+		if (formDb == null)
 			throw new FormNotFoundException(String.format("Form with id %s was not found", id));
 
-		form.setStatus(FormStatus.valueOf(updateItemMap.get("status")));
 		formService.create(form);
 		return getFormResource(form);
 	}
 
-	@RequestMapping(method = GET, value = "/id/{id}")
+	@RequestMapping(method = GET, value = "/id/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Resource<Form>> findById(@PathVariable("id") String id) {
 
 		logger.debug("Searching for form with id -> {}", id);
