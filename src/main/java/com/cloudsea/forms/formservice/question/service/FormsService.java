@@ -1,7 +1,15 @@
 package com.cloudsea.forms.formservice.question.service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
+import com.cloudsea.forms.formservice.question.converters.Converter;
+import com.cloudsea.forms.formservice.question.dto.UpdateForm;
+import com.cloudsea.forms.formservice.question.model.Element;
+import com.cloudsea.forms.formservice.utils.Utils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +22,12 @@ import com.cloudsea.forms.formservice.validate.Validate;
 public class FormsService {
 
     private FormRepository formRepository;
+    private final Map<String, Converter> converters;
 
     @Autowired
-    public FormsService(FormRepository formRepository) {
+    public FormsService(FormRepository formRepository, Map<String, Converter> converters) {
         this.formRepository = formRepository;
+        this.converters = converters;
     }
 
     public void create(Form form) {
@@ -30,7 +40,6 @@ public class FormsService {
                     .stream()
                     .forEach(Validate::validateElements);
         }
-
 
         formRepository.save(form);
     }
@@ -57,4 +66,47 @@ public class FormsService {
         return formRepository.findByUserId(userId);
     }
 
+    public void patch(Form formDb, UpdateForm updateForm) {
+
+
+        String path = updateForm.getPath();
+        String updatePath = "";
+
+
+        if (path.contains("elements") && path.contains("id")) {
+
+            String[] pathArr = path.split("/");
+            String id = pathArr[2];
+            int elementIndex = Utils.getIndexOfElement(formDb, id);
+            updatePath = Utils.getElementPath(elementIndex, pathArr[3]);
+            patchProperty(formDb, updateForm, updatePath, pathArr[3]);
+
+        } else if (path.contains("elements")) {
+            updatePath = path.split("/")[1];
+
+            Converter<Element> converter = converters.get(updatePath);
+            Element element = converter.convert(updateForm.getValue());
+            formDb.getElements().add(element);
+
+        } else {
+            updatePath = path.split("/")[1];
+            patchProperty(formDb, updateForm, updatePath, updatePath);
+        }
+
+
+        formRepository.save(formDb);
+
+    }
+
+    private void patchProperty(Form formDb, UpdateForm updateForm, String attributePath, String attributeName) {
+        try {
+            PropertyUtils.setProperty(formDb, attributePath, converters.get(attributeName).convert(updateForm.getValue()));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
 }

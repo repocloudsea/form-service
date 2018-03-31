@@ -72,4 +72,14 @@ public abstract class Element implements Validate {
 	public Element() {
 	}
 
+    @Override
+    public String toString() {
+        return "Element{" +
+                "refId='" + refId + '\'' +
+                ", question='" + question + '\'' +
+                ", helpText='" + helpText + '\'' +
+                ", required=" + required +
+                ", attachmentUrl='" + attachmentUrl + '\'' +
+                '}';
+    }
 }

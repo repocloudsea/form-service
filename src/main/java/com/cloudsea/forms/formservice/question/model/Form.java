@@ -1,5 +1,6 @@
 package com.cloudsea.forms.formservice.question.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -19,7 +20,7 @@ public class Form {
 	private String webHook;
 	@NotNull
 	private FormStatus status = FormStatus.DORMANT;
-	private List<Element> elements;
+	private List<Element> elements = new ArrayList<>();
 
 	public String getUserId() {
 		return userId;
