@@ -68,20 +68,6 @@ public class FormConfigureController {
         return new ResponseEntity<Resources<Resource<UserForm>>>(resourceList, HttpStatus.OK);
     }
 
-//	@PatchMapping(value = "/{id}")
-//	public ResponseEntity<Resource<Form>> updateStatus(@PathVariable("id") String id,
-//			@RequestBody Form form) {
-//		logger.debug("Updaing form with is -> {}", id);
-//
-//		Form formDb = formService.findById(id);
-//		if (formDb == null)
-//			throw new FormNotFoundException(String.format("Form with id %s was not found", id));
-//
-//		formService.create(form);
-//		return getFormResource(form);
-//	}
-
-
     @PatchMapping(value = "/{id}")
     public ResponseEntity<Resource<Form>> updateStatus(@PathVariable("id") String id,
                                                        @Valid @RequestBody UpdateForm updateForm) {
