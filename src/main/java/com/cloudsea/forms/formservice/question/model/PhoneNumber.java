@@ -22,8 +22,9 @@ public class PhoneNumber extends Element {
 		super();
 	}
 
-	public PhoneNumber(String question, String helpText, boolean required, String attachmentUrl) {
-		super(question, helpText, required, attachmentUrl);
+	public PhoneNumber(String refId, String question, String helpText, boolean required, String attachmentUrl, String phoneNumber) {
+		super(refId, question, helpText, required, attachmentUrl);
+		this.phoneNumber = phoneNumber;
 	}
 
 	@Override

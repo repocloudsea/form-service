@@ -21,8 +21,9 @@ public class Rate extends Element {
 	public Rate() {
 	}
 
-	public Rate(String question, String helpText, boolean required, String attachmentUrl) {
-		super(question, helpText, required, attachmentUrl);
+	public Rate(String refId, String question, String helpText, boolean required, String attachmentUrl, Integer rates) {
+		super(refId, question, helpText, required, attachmentUrl);
+		this.rates = rates;
 	}
 
 	@Override

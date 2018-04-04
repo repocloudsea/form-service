@@ -21,9 +21,10 @@ public class LongText extends Element {
 	public LongText() {
 	}
 
-	public LongText(String question, String helpText, boolean required, String attachmentUrl) {
-		super(question, helpText, required, attachmentUrl);
-	}
+    public LongText(String refId, String question, String helpText, boolean required, String attachmentUrl, int maxLength) {
+        super(refId, question, helpText, required, attachmentUrl);
+        this.maxLength = maxLength;
+    }
 
 	@Override
 	public ValidationResult validate(String value) throws IllegalArgumentException {
@@ -42,7 +43,7 @@ public class LongText extends Element {
 	public void validateElements() throws IllegalArgumentException {
 		if(this.maxLength > Integer.MAX_VALUE)
 			throw new IllegalArgumentException(String.format("Max length allowed is %d", Integer.MAX_VALUE));
-		
+
 	}
 
 }

@@ -34,8 +34,10 @@ public class MutipleChoice extends Element {
 	public MutipleChoice() {
 	}
 
-	public MutipleChoice(String question, String helpText, boolean required, String attachmentUrl) {
-		super(question, helpText, required, attachmentUrl);
+	public MutipleChoice(String refId, String question, String helpText, boolean required, String attachmentUrl, List<String> choices, boolean mutipleAllowed) {
+		super(refId, question, helpText, required, attachmentUrl);
+		this.choices = choices;
+		this.mutipleAllowed = mutipleAllowed;
 	}
 
 	@Override
