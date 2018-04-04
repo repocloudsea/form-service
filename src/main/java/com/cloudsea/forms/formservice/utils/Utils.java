@@ -1,15 +1,18 @@
 package com.cloudsea.forms.formservice.utils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import com.cloudsea.forms.formservice.question.controller.FormConfigureController;
 import com.cloudsea.forms.formservice.question.converters.Converter;
+import com.cloudsea.forms.formservice.question.dto.UpdateForm;
 import com.cloudsea.forms.formservice.question.model.Element;
 import com.cloudsea.forms.formservice.question.model.Form;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.openpojo.reflection.PojoClass;
 import com.openpojo.reflection.impl.PojoClassFactory;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,8 +55,21 @@ public class Utils {
             }
         }
 
-        // pouplate converters for Form.class
-        populateConverters(converters,Form.class);
+        // pouplate converters for Form and Elelment base classes
+        populateConverters(converters, Form.class);
+        populateConverters(converters, Element.class);
+    }
+
+    public static void patchProperty(Form formDb, UpdateForm updateForm, String attributePath, String attributeName, Map<String, Converter> converters) {
+        try {
+            PropertyUtils.setProperty(formDb, attributePath, converters.get(attributeName).convert(updateForm.getValue()));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void populateConverters(Map<String, Converter> converters, Class clazz) {

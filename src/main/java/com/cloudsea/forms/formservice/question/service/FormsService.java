@@ -5,12 +5,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.cloudsea.forms.formservice.question.controller.FormConfigureController;
 import com.cloudsea.forms.formservice.question.converters.Converter;
 import com.cloudsea.forms.formservice.question.dto.UpdateForm;
+import com.cloudsea.forms.formservice.question.interpretor.PathResoverChain;
 import com.cloudsea.forms.formservice.question.model.Element;
 import com.cloudsea.forms.formservice.utils.Utils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +25,17 @@ import com.cloudsea.forms.formservice.validate.Validate;
 @Service
 public class FormsService {
 
-    private FormRepository formRepository;
+    private static final Logger LOG = LoggerFactory.getLogger(FormsService.class);
+
+    private final FormRepository formRepository;
     private final Map<String, Converter> converters;
+    private final PathResoverChain pathResover;
 
     @Autowired
-    public FormsService(FormRepository formRepository, Map<String, Converter> converters) {
+    public FormsService(FormRepository formRepository, Map<String, Converter> converters, PathResoverChain pathResover) {
         this.formRepository = formRepository;
         this.converters = converters;
+        this.pathResover = pathResover;
     }
 
     public void create(Form form) {
@@ -68,31 +76,35 @@ public class FormsService {
 
     public void patch(Form formDb, UpdateForm updateForm) {
 
+        LOG.info("Form data before updating -> {} ", formDb);
+        LOG.info("Patch Resolver -> {} ", pathResover.getClass().getName());
+        pathResover.resolve(updateForm.getPath()).performPatch(formDb, updateForm, converters);
 
-        String path = updateForm.getPath();
-        String updatePath = "";
 
+//        String path = updateForm.getPath();
+//        String updatePath = "";
+//
+//        if (path.contains("elements") && path.contains("id")) {
+//
+//            String[] pathArr = path.split("/");
+//            String id = pathArr[2];
+//            int elementIndex = Utils.getIndexOfElement(formDb, id);
+//            updatePath = Utils.getElementPath(elementIndex, pathArr[3]);
+//            patchProperty(formDb, updateForm, updatePath, pathArr[3]);
+//
+//        } else if (path.contains("elements")) {
+//            updatePath = path.split("/")[1];
+//
+//            Converter<Element> converter = converters.get(updatePath);
+//            Element element = converter.convert(updateForm.getValue());
+//            formDb.getElements().add(element);
+//
+//        } else {
+//            updatePath = path.split("/")[1];
+//            patchProperty(formDb, updateForm, updatePath, updatePath);
+//        }
 
-        if (path.contains("elements") && path.contains("id")) {
-
-            String[] pathArr = path.split("/");
-            String id = pathArr[2];
-            int elementIndex = Utils.getIndexOfElement(formDb, id);
-            updatePath = Utils.getElementPath(elementIndex, pathArr[3]);
-            patchProperty(formDb, updateForm, updatePath, pathArr[3]);
-
-        } else if (path.contains("elements")) {
-            updatePath = path.split("/")[1];
-
-            Converter<Element> converter = converters.get(updatePath);
-            Element element = converter.convert(updateForm.getValue());
-            formDb.getElements().add(element);
-
-        } else {
-            updatePath = path.split("/")[1];
-            patchProperty(formDb, updateForm, updatePath, updatePath);
-        }
-
+        LOG.info("Form data after patch applied -> {} ", formDb);
 
         formRepository.save(formDb);
 

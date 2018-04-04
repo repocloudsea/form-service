@@ -56,7 +56,7 @@ public class FormConfigureController {
         List<Resource<UserForm>> listResource = new ArrayList<>();
 
         for (Form form : forms) {
-            UserForm userForms = new UserForm(form.getTitle(), form.getStatus().name());
+            UserForm userForms = new UserForm(form.getTitle(), form.getStatus().name(), form.getId());
             Resource<UserForm> userFormResource = new Resource<UserForm>(userForms);
             userFormResource.add(linkTo(methodOn(getClass()).findById(form.getId())).withSelfRel());
             addPublicLinkIfStatusIsOpen(form, userFormResource);
@@ -78,7 +78,7 @@ public class FormConfigureController {
             throw new FormNotFoundException(String.format("Form with id %s was not found", id));
 
 
-        formService.patch(formDb,updateForm);
+        formService.patch(formDb, updateForm);
 
         return getFormResource(formService.findById(id));
     }
