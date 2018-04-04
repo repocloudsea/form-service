@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @SpringBootApplication
 @EnableHypermediaSupport(type = EnableHypermediaSupport.HypermediaType.HAL)
-@CrossOrigin
 public class FormserviceApplication {
 
     public static void main(String[] args) {

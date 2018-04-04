@@ -28,9 +28,9 @@ import com.cloudsea.forms.formservice.question.model.Form;
 import com.cloudsea.forms.formservice.question.model.FormStatus;
 import com.cloudsea.forms.formservice.question.service.FormsService;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/forms")
-@CrossOrigin
 public class FormConfigureController {
     private static final Logger logger = LoggerFactory.getLogger(FormConfigureController.class);
 
@@ -83,7 +83,7 @@ public class FormConfigureController {
         return getFormResource(formService.findById(id));
     }
 
-    @RequestMapping(method = GET, value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = GET, value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Resource<Form>> findById(@PathVariable("id") String id) {
 
         logger.info("Searching for form with id -> {}", id);
