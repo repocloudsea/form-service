@@ -87,4 +87,16 @@ public abstract class Element implements Validate {
     public void setOrder(Integer order) {
         this.order = order;
     }
+
+    @Override
+    public String toString() {
+        return "Element{" +
+                "refId='" + refId + '\'' +
+                ", question='" + question + '\'' +
+                ", helpText='" + helpText + '\'' +
+                ", required=" + required +
+                ", attachmentUrl='" + attachmentUrl + '\'' +
+                ", order=" + order +
+                '}';
+    }
 }

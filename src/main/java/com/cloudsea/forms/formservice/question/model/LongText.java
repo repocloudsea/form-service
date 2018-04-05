@@ -45,5 +45,4 @@ public class LongText extends Element {
 			throw new IllegalArgumentException(String.format("Max length allowed is %d", Integer.MAX_VALUE));
 
 	}
-
 }
