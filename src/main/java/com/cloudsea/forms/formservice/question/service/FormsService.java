@@ -7,8 +7,10 @@ import java.util.Optional;
 
 import com.cloudsea.forms.formservice.question.controller.FormConfigureController;
 import com.cloudsea.forms.formservice.question.converters.Converter;
+import com.cloudsea.forms.formservice.question.dto.Operation;
 import com.cloudsea.forms.formservice.question.dto.UpdateForm;
 import com.cloudsea.forms.formservice.question.interpretor.PathResoverChain;
+import com.cloudsea.forms.formservice.question.interpretor.RemoveElementExecutor;
 import com.cloudsea.forms.formservice.question.model.Element;
 import com.cloudsea.forms.formservice.utils.Utils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -77,32 +79,17 @@ public class FormsService {
     public void patch(Form formDb, UpdateForm updateForm) {
 
         LOG.info("Form data before updating -> {} ", formDb);
-        LOG.info("Patch Resolver -> {} ", pathResover.getClass().getName());
-        pathResover.resolve(updateForm.getPath()).performPatch(formDb, updateForm, converters);
 
+        //TODO Both update and delete should happen via PathResolver and PatchExecutor
 
-//        String path = updateForm.getPath();
-//        String updatePath = "";
-//
-//        if (path.contains("elements") && path.contains("id")) {
-//
-//            String[] pathArr = path.split("/");
-//            String id = pathArr[2];
-//            int elementIndex = Utils.getIndexOfElement(formDb, id);
-//            updatePath = Utils.getElementPath(elementIndex, pathArr[3]);
-//            patchProperty(formDb, updateForm, updatePath, pathArr[3]);
-//
-//        } else if (path.contains("elements")) {
-//            updatePath = path.split("/")[1];
-//
-//            Converter<Element> converter = converters.get(updatePath);
-//            Element element = converter.convert(updateForm.getValue());
-//            formDb.getElements().add(element);
-//
-//        } else {
-//            updatePath = path.split("/")[1];
-//            patchProperty(formDb, updateForm, updatePath, updatePath);
-//        }
+        if (updateForm.getOperation() == Operation.UPDATE) {
+            pathResover.resolve(updateForm.getPath()).performPatch(formDb, updateForm, converters);
+        } else {
+
+            // TODO This is a code smell and breaking standard, need to find a way to REMOVE/UPDATE in a better way
+            new RemoveElementExecutor().performPatch(formDb, updateForm, converters);
+        }
+
 
         LOG.info("Form data after patch applied -> {} ", formDb);
 

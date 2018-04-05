@@ -1,17 +1,13 @@
 package com.cloudsea.forms.formservice.question.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-enum Operation {
-
-    REMOVE, UPDATE;
-}
-
-
+@JsonIgnoreProperties
 public class UpdateForm {
 
     @NotNull
