@@ -1,5 +1,6 @@
 package com.cloudsea.forms.formservice.question.interpretor;
 
+import com.cloudsea.forms.formservice.question.dto.UpdateForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +15,9 @@ public class UpdateElementResolver implements PathResoverChain {
     }
 
     @Override
-    public PatchExecutor resolve(String path) {
+    public PatchExecutor resolve(UpdateForm updateForm) {
 
-        if (path.contains("elements") && path.split("/").length > 2) {
+        if (updateForm.getPath().contains("elements") && updateForm.getPath().split("/").length > 2) {
             LOG.info("Returning {} ", getClass().getName());
             return new UpdateElementExecutor();
         } else {

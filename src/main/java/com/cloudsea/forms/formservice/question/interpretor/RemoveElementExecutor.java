@@ -21,7 +21,7 @@ public class RemoveElementExecutor implements PatchExecutor {
         String attributeName = updatePathArr[1];
         String id = updatePathArr[2];
 
-        LOG.info("Trying to remove {} with id {} ",attributeName,id);
+        LOG.info("Trying to remove {} with id {} ", attributeName, id);
 
         form.getElements().removeIf(element -> element.getRefId().equals(id));
     }

@@ -80,17 +80,7 @@ public class FormsService {
 
         LOG.info("Form data before updating -> {} ", formDb);
 
-        //TODO Both update and delete should happen via PathResolver and PatchExecutor
-
-        if (updateForm.getOperation() == Operation.UPDATE) {
-            pathResover.resolve(updateForm.getPath()).performPatch(formDb, updateForm, converters);
-        } else {
-
-            // TODO This is a code smell and breaking standard, need to find a way to REMOVE/UPDATE in a better way
-            new RemoveElementExecutor().performPatch(formDb, updateForm, converters);
-        }
-
-
+        pathResover.resolve(updateForm).performPatch(formDb, updateForm, converters);
         LOG.info("Form data after patch applied -> {} ", formDb);
 
         formRepository.save(formDb);

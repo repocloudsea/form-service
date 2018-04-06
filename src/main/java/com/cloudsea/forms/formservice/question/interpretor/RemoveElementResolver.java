@@ -1,12 +1,14 @@
 package com.cloudsea.forms.formservice.question.interpretor;
 
+import com.cloudsea.forms.formservice.question.dto.Operation;
 import com.cloudsea.forms.formservice.question.dto.UpdateForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddElementResolver implements PathResoverChain {
+public class RemoveElementResolver implements PathResoverChain {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AddElementResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RemoveElementResolver.class);
+
     private PathResoverChain nextPathResoverChain;
 
     @Override
@@ -16,14 +18,9 @@ public class AddElementResolver implements PathResoverChain {
 
     @Override
     public PatchExecutor resolve(UpdateForm updateForm) {
-
-        if (updateForm.getPath().contains("elements") && updateForm.getPath().split("/").length == 2) {
-            LOG.info("Returning {} ", getClass().getName());
-            return new AddElementExecutor();
-        } else {
-            LOG.info("Checking {} ", nextPathResoverChain.getClass().getName());
+        if (updateForm.getOperation() == Operation.REMOVE)
+            return new RemoveElementExecutor();
+        else
             return nextPathResoverChain.resolve(updateForm);
-        }
-
     }
 }

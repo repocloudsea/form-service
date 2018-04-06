@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
+import io.swagger.annotations.ApiModelProperty;
 
 @JsonTypeInfo(use = Id.NAME, include = As.PROPERTY, property = "type")
 @JsonSubTypes({@JsonSubTypes.Type(value = ShortText.class), @JsonSubTypes.Type(value = LongText.class),
@@ -17,16 +18,22 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Element implements Validate {
 
+    @ApiModelProperty(notes = "Auto-generated element id")
     private String refId = UUID.randomUUID().toString();
 
+    @ApiModelProperty(notes = "Primary text to be displayed for any input field")
     private String question;
 
+    @ApiModelProperty(notes = "Help text to be displayed for any input field")
     private String helpText;
 
+    @ApiModelProperty(notes = "Required or not")
     private boolean required;
 
+    @ApiModelProperty(notes = "Link to any image or file that should be displayed on input field")
     private String attachmentUrl;
 
+    @ApiModelProperty(notes = "Order in which the element should be displayed in UI")
     private Integer order;
 
     public Element(String refId, String question, String helpText, boolean required, String attachmentUrl) {
