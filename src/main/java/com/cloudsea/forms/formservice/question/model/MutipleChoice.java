@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.cloudsea.forms.formservice.validate.ValidationResult;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName(value = "mutipleChoice")
+@JsonTypeName(value = "multipleChoice")
 public class MutipleChoice extends Element {
 
 	private List<String> choices;
