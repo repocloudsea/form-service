@@ -8,44 +8,55 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName(value = "rate")
 public class Rate extends Element {
 
-	private Integer rates = 5;
+    private Integer rates = 5;
+    private String shapes;
 
-	public Integer getRates() {
-		return rates;
-	}
+    public String getShapes() {
+        return shapes;
+    }
 
-	public void setRates(Integer rates) {
-		this.rates = rates;
-	}
+    public void setShapes(String shapes) {
+        this.shapes = shapes;
+    }
 
-	public Rate() {
-	}
+    public Integer getRates() {
+        return rates;
+    }
 
-	public Rate(String refId, String question, String helpText, boolean required, String attachmentUrl, Integer rates) {
-		super(refId, question, helpText, required, attachmentUrl);
-		this.rates = rates;
-	}
+    public void setRates(Integer rates) {
+        this.rates = rates;
+    }
 
-	@Override
-	public ValidationResult validate(String value) throws IllegalArgumentException {
-		
-		if (isRequired() && StringUtils.isBlank(value))
-			return new ValidationResult(getRefId(), "Cannot be empty");
+    public Rate() {
+    }
 
-		if (!StringUtils.isNumeric(value))
-			return new ValidationResult(getRefId(), String.format("Only numerice values allowed"));
+    public Rate(String refId, String question, String helpText, boolean required, String attachmentUrl, Integer rates, String shapes) {
+        super(refId, question, helpText, required, attachmentUrl);
+        this.rates = rates;
+        this.shapes = shapes;
+    }
 
-		if (Integer.parseInt(value) > rates)
-			return new ValidationResult(getRefId(), String.format("Maximum %d charecters allowed ", this.rates));
 
-		return null;
-	}
+    @Override
+    public ValidationResult validate(String value) throws IllegalArgumentException {
 
-	@Override
-	public void validateElements() throws IllegalArgumentException {
-		if(this.rates >10)
-			throw new IllegalArgumentException("Only 10 rating are allowed");
-		
-	}
+        if (isRequired() && StringUtils.isBlank(value))
+            return new ValidationResult(getRefId(), "Cannot be empty");
+
+        if (!StringUtils.isNumeric(value))
+            return new ValidationResult(getRefId(), String.format("Only numerice values allowed"));
+
+        if (Integer.parseInt(value) > rates)
+            return new ValidationResult(getRefId(), String.format("Maximum %d charecters allowed ", this.rates));
+
+        return null;
+    }
+
+    @Override
+    public void validateElements() throws IllegalArgumentException {
+        if (this.rates > 10)
+            throw new IllegalArgumentException("Only 10 rating are allowed");
+
+    }
 
 }
