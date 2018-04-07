@@ -25,8 +25,10 @@ public class FormDate extends Element {
         return null;
     }
 
+    //TODO Add date format validations by making format as ENUM
     @Override
     public void validateElements() throws IllegalArgumentException {
+
 
     }
 }

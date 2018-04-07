@@ -52,6 +52,7 @@ public class Rate extends Element {
         return null;
     }
 
+    //TODO Add shapes as enum for validations
     @Override
     public void validateElements() throws IllegalArgumentException {
         if (this.rates > 10)

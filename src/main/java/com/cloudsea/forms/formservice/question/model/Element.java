@@ -14,7 +14,10 @@ import io.swagger.annotations.ApiModelProperty;
 @JsonSubTypes({@JsonSubTypes.Type(value = ShortText.class), @JsonSubTypes.Type(value = LongText.class),
         @JsonSubTypes.Type(value = DropDown.class), @JsonSubTypes.Type(value = Number.class),
         @JsonSubTypes.Type(value = Rate.class), @JsonSubTypes.Type(value = MutipleChoice.class),
-        @JsonSubTypes.Type(value = Email.class), @JsonSubTypes.Type(value = PhoneNumber.class)})
+        @JsonSubTypes.Type(value = Email.class), @JsonSubTypes.Type(value = PhoneNumber.class),
+        @JsonSubTypes.Type(value = Radio.class), @JsonSubTypes.Type(value = FormDate.class), @JsonSubTypes.Type(value = YesNo.class)
+
+})
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Element implements Validate {
 

@@ -45,19 +45,14 @@ public class MutipleChoice extends Element {
         if (isRequired() && StringUtils.isBlank(value))
             return new ValidationResult(getRefId(), "Cannot be empty");
 
-//        if (mutipleAllowed) {
-//            List<String> answers = Arrays.asList(value.split(","));
-//
-//            if (answers.size() > choices.size())
-//                return new ValidationResult(getRefId(), "Mismatch found");
-//
-//            if (Collections.disjoint(answers, choices))
-//                return new ValidationResult(getRefId(), "Mismatch found");
-//
-//        } else {
-//            if (!choices.contains(value))
-//                return new ValidationResult(getRefId(), "Mismatch found");
-//        }
+        List<String> answers = Arrays.asList(value.split(","));
+
+        if (answers.size() > numberOfAllowedAnswers)
+            return new ValidationResult(getRefId(), "Number of answers given is more than allowed for this questions ");
+
+        if (Collections.disjoint(answers, choices))
+            return new ValidationResult(getRefId(), "Mismatch found");
+
         return null;
     }
 
