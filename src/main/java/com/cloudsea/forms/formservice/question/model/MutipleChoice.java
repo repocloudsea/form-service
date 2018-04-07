@@ -12,59 +12,59 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName(value = "multipleChoice")
 public class MutipleChoice extends Element {
 
-	private List<String> choices;
-	private boolean mutipleAllowed;
+    private List<String> choices;
+    private Integer numberOfAllowedAnswers;
 
-	public List<String> getChoices() {
-		return choices;
-	}
+    public MutipleChoice(String refId, String question, String helpText, boolean required, String attachmentUrl, List<String> choices, Integer numberOfAllowedAnswers) {
+        super(refId, question, helpText, required, attachmentUrl);
+        this.choices = choices;
+        this.numberOfAllowedAnswers = numberOfAllowedAnswers;
+    }
 
-	public void setChoices(List<String> choices) {
-		this.choices = choices;
-	}
+    public MutipleChoice() {
+    }
 
-	public boolean isMutipleAllowed() {
-		return mutipleAllowed;
-	}
+    public List<String> getChoices() {
+        return choices;
+    }
 
-	public void setMutipleAllowed(boolean mutipleAllowed) {
-		this.mutipleAllowed = mutipleAllowed;
-	}
+    public void setChoices(List<String> choices) {
+        this.choices = choices;
+    }
 
-	public MutipleChoice() {
-	}
+    public Integer getNumberOfAllowedAnswers() {
+        return numberOfAllowedAnswers;
+    }
 
-	public MutipleChoice(String refId, String question, String helpText, boolean required, String attachmentUrl, List<String> choices, boolean mutipleAllowed) {
-		super(refId, question, helpText, required, attachmentUrl);
-		this.choices = choices;
-		this.mutipleAllowed = mutipleAllowed;
-	}
+    public void setNumberOfAllowedAnswers(Integer numberOfAllowedAnswers) {
+        this.numberOfAllowedAnswers = numberOfAllowedAnswers;
+    }
 
-	@Override
-	public ValidationResult validate(String value) throws IllegalArgumentException {
-		if (isRequired() && StringUtils.isBlank(value))
-			return new ValidationResult(getRefId(), "Cannot be empty");
+    @Override
+    public ValidationResult validate(String value) throws IllegalArgumentException {
+        if (isRequired() && StringUtils.isBlank(value))
+            return new ValidationResult(getRefId(), "Cannot be empty");
 
-		if (mutipleAllowed) {
-			List<String> answers = Arrays.asList(value.split(","));
+//        if (mutipleAllowed) {
+//            List<String> answers = Arrays.asList(value.split(","));
+//
+//            if (answers.size() > choices.size())
+//                return new ValidationResult(getRefId(), "Mismatch found");
+//
+//            if (Collections.disjoint(answers, choices))
+//                return new ValidationResult(getRefId(), "Mismatch found");
+//
+//        } else {
+//            if (!choices.contains(value))
+//                return new ValidationResult(getRefId(), "Mismatch found");
+//        }
+        return null;
+    }
 
-			if (answers.size() > choices.size())
-				return new ValidationResult(getRefId(), "Mismatch found");
-
-			if (Collections.disjoint(answers, choices))
-				return new ValidationResult(getRefId(), "Mismatch found");
-
-		} else {
-			if (!choices.contains(value))
-				return new ValidationResult(getRefId(), "Mismatch found");
-		}
-		return null;
-	}
-
-	@Override
-	public void validateElements() throws IllegalArgumentException {
-		if(this.choices==null || this.choices.size()<2)
-			throw new IllegalArgumentException("There must be atleast two choices");		
-	}
+    @Override
+    public void validateElements() throws IllegalArgumentException {
+        if (this.choices == null || this.choices.size() < 2)
+            throw new IllegalArgumentException("There must be atleast two choices");
+    }
 
 }

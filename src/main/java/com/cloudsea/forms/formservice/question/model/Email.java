@@ -5,23 +5,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName(value = "email")
 public class Email extends Element {
-
-    private String email;
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Email() {
     }
 
-    public Email(String refId, String question, String helpText, boolean required, String attachmentUrl, String email) {
+    public Email(String refId, String question, String helpText, boolean required, String attachmentUrl) {
         super(refId, question, helpText, required, attachmentUrl);
-        this.email = email;
     }
 
     @Override
@@ -29,14 +17,13 @@ public class Email extends Element {
 
         if (!value.contains("@"))
             return new ValidationResult(getRefId(), "Email invalid");
-
         return null;
-
     }
 
     @Override
     public void validateElements() throws IllegalArgumentException {
 
     }
+
 
 }
